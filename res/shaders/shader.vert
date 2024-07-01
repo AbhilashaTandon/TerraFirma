@@ -38,7 +38,7 @@ void main(){
 
 	light_dir = normalize(vec3(1, 1, 1));
 
-	frag_norm = norm;
+	frag_norm = normalize(norm);
 
 	frag_pos =  look_at * pos;
 	frag_color = vec3(1.);

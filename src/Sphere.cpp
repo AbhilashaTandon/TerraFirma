@@ -2,27 +2,16 @@
 #include <cmath>
 #include <iostream>
 
-static const float tau = 6.283185307;
+static const float tau = 6.283185307f;
 
 void Sphere::set_vertices()
 {
-
-	float x_coord, y_coord, z_coord;
-
-
 	//north pole
-	x_coord = 0;
-	y_coord = 0;
-	z_coord = radius;
-	//vector norm
+	glm::vec3 current_vec = glm::vec3(0, 0, radius);
 
-	points.push_back(center_x - x_coord);
-	points.push_back(center_y - y_coord);
-	points.push_back(center_z - z_coord);
-
-	normals.push_back(x_coord / radius);
-	normals.push_back(y_coord / radius);
-	normals.push_back(z_coord / radius);
+	points.push_back(center - current_vec);
+	normals.push_back(current_vec / radius);
+	//current vec is distance to center, we normalize it to get normal vector
 
 	for (float j = 1; j < num_lat; j += 1) { //excludes north and south poles
 		for (float i = 0; i < num_long; i += 1) {
@@ -33,44 +22,34 @@ void Sphere::set_vertices()
 			float phi = i * tau / (num_long);
 			float theta = j * tau / (2 * num_lat);
 
-			x_coord = radius * std::sin(theta) * std::cos(phi);
-			y_coord = radius * std::sin(theta) * std::sin(phi); //y coord
-			z_coord = radius * std::cos(theta); //z coord
+			//temp variables to add to vec3
+			float x_coord = radius * std::sin(theta) * std::cos(phi);
+			float y_coord = radius * std::sin(theta) * std::sin(phi);
+			float z_coord = radius * std::cos(theta); 
 
+			current_vec = glm::vec3(x_coord, y_coord, z_coord);
 
-			points.push_back(center_x - x_coord);
-			points.push_back(center_y - y_coord);
-			points.push_back(center_z - z_coord);
+			points.push_back(center - current_vec);
 
-			normals.push_back(x_coord / radius);
-			normals.push_back(y_coord / radius);
-			normals.push_back(z_coord / radius);
+			normals.push_back(current_vec / radius); //current vec is distance to center, we normalize it to get normal vector
 
 			
 		}
 	}
 
+
 	//south pole
+	current_vec = glm::vec3(0, 0, -radius);
 
-	x_coord = 0;
-	y_coord = 0;
-	z_coord = -radius;
-
-
-	points.push_back(center_x - x_coord);
-	points.push_back(center_y - y_coord);
-	points.push_back(center_z - z_coord);
-
-	normals.push_back(x_coord / radius);
-	normals.push_back(y_coord / radius);
-	normals.push_back(z_coord / radius);
+	points.push_back(center - current_vec);
+	normals.push_back(current_vec / radius);
 
 	
 }
 
 void Sphere::set_indices()
 {
-	for (int i = 0; i < num_long; i++) {
+	for (unsigned int i = 0; i < num_long; i++) {
 
 		indices.push_back(1 + i);
 		indices.push_back(0); //north pole
@@ -78,9 +57,9 @@ void Sphere::set_indices()
 		//adds triangle from north pole to first set of points
 	}
 
-	for (int j = 0; j < num_lat - 2; j++) {
+	for (unsigned int j = 0; j < num_lat - 2; j++) {
 		//add 2 triangles for each tile
-		for (int i = 0; i < num_long; i += 1) {
+		for (unsigned int i = 0; i < num_long; i += 1) {
 
 			//next point on latitude circle
 
@@ -96,7 +75,7 @@ void Sphere::set_indices()
 		}
 	}
 
-	for (int i = 0; i < num_long; i++) {
+	for (unsigned int i = 0; i < num_long; i++) {
 		indices.push_back(1 + (num_lat - 2) * num_long + i); //last circle
 		indices.push_back(1 + (num_lat - 2) * num_long + (i + 1) % num_long); //last circle next point
 		indices.push_back((num_lat - 1) * (num_long)+1);

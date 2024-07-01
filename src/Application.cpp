@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 
-#define BUFFER_SIZE 2048
+#define BUFFER_SIZE 4096
 #define DEBUG false
 
 static unsigned int compileShader(unsigned int type, const std::string& source) {
@@ -134,13 +134,19 @@ int main(void)
 
 	
 
-	Sphere x = Sphere(.5, 0., 0., 0., 8, 16);
+	Sphere x = Sphere(.5, glm::vec3(0,0,0), 16, 32);
+
+	x.scale(1.5f);
+
+
 	std::vector<float> vertices_vec = x.get_vertices(true);
+
 	std::vector<unsigned> indices_vec = x.get_indices();
+
 
 	if (DEBUG) {
 		for (int i = 0; i < vertices_vec.size(); i++) {
-			float rounded = float(long(vertices_vec[i] * 10000000)) / 10000000;
+			float rounded = float(long(vertices_vec[i] * 100000)) / 100000;
 			std::cout << rounded << ' ';
 			if (i % 3 == 2) {
 				std::cout << '\n';
@@ -158,9 +164,9 @@ int main(void)
 		}
 	}
 
-	float vertices[1000];
+	float vertices[BUFFER_SIZE];
 
-	unsigned int indices[1000];
+	unsigned int indices[BUFFER_SIZE];
 
 	std::copy(vertices_vec.begin(), vertices_vec.end(), vertices);
 	std::copy(indices_vec.begin(), indices_vec.end(), indices);
@@ -171,9 +177,11 @@ int main(void)
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0); //3 is dimension
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
+	//3 is dimension
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0); //3 is dimension
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
+	//3 is dimension
 
 
 	unsigned int index_buffer;

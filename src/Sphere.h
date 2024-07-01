@@ -9,7 +9,7 @@ public:
 
 	Sphere() = default;
 
-	Sphere(float radius, float center_x, float center_y, float center_z, unsigned int num_lat, unsigned int num_long) : Solid(center_x, center_y, center_z) {
+	Sphere(float radius, glm::vec3 center, unsigned int num_lat, unsigned int num_long) : Solid(center) {
 		this->radius = radius;
 		
 		this->num_lat = num_lat;
@@ -18,8 +18,6 @@ public:
 		set_vertices();
 	}
 
-	
-
 private:
 	float radius;
 	unsigned int num_lat;
@@ -27,6 +25,5 @@ private:
 
 	void set_indices();
 	void set_vertices(); //normals and points
-
 };
 

@@ -24,12 +24,18 @@
     <ClCompile Include="src\Solid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Cylinder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Solid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cylinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

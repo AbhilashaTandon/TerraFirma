@@ -14,18 +14,15 @@ void Solid::rotate_z(float angle)
 
 void Solid::scale(float size)
 {
-	for (int i = 0; i < points.size()-2; i += 3) {
-		points[i] = (points[i] - center_x) * size + center_x;
-		points[i + 1] = (points[i + 1] - center_y) * size + center_y;
-		points[i + 2] = (points[i + 2] - center_z) * size + center_z;
+	for (int i = 0; i < points.size(); i ++) {
+		points[i] = (points[i] - center) * size + center;
 	}
 }
 
-void Solid::translate(float dx, float dy, float dz)
+void Solid::translate(glm::vec3 delta)
 {
-	for (int i = 0; i < points.size()-2; i+=3) {
-		points[i] += dx;
-		points[i + 1] += dy;
-		points[i + 2] += dz;
+	for (int i = 0; i < points.size(); i++) {
+		points[i] += delta;
 	}
+	center += delta;
 }

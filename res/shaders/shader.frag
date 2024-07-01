@@ -7,5 +7,7 @@ in vec3 light_dir;
 in vec3 frag_color;
 
 void main(){
-	color = vec4(vec3(dot(light_dir, frag_norm))+.5, 1.);
+
+	float ambient = .5;
+	color = vec4(vec3(dot(normalize(light_dir), normalize(frag_norm))) * (1. - ambient) + ambient, 1.);
 }
